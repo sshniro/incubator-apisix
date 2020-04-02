@@ -61,7 +61,7 @@ local function send_http_data(conf, log_message)
     local res = true
     local url_decoded = url.parse(conf.uri)
     local host = url_decoded.host
-    local port = parsed_url.port
+    local port = url_decoded.port
 
     if url_decoded.scheme == "https" then
         port = 443
