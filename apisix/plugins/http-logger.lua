@@ -27,19 +27,17 @@ local buffers = {}
 local schema = {
     type = "object",
     properties = {
-        uri = { type = "string" },
-        method = { type = "string" },
-        auth_header = { type = "string" },
-        content_type = { type = "string" },
-        timeout = { type = "integer", minimum = 1, default = 3 },
-        name = { type = "string", default = "udp logger" },
-        max_retry_count = { type = "integer", minimum = 0, default = 0 },
-        retry_delay = { type = "integer", minimum = 0, default = 1 },
-        buffer_duration = { type = "integer", minimum = 1, default = 60 },
-        inactive_timeout = { type = "integer", minimum = 1, default = 5 },
-        batch_max_size = { type = "integer", minimum = 1, default = 1000 },
+        uri = {type = "string"},
+        auth_header = {type = "string", default = ""},
+        timeout = {type = "integer", minimum = 1, default = 3},
+        name = {type = "string", default = "http logger"},
+        max_retry_count = {type = "integer", minimum = 0, default = 0},
+        retry_delay = {type = "integer", minimum = 0, default = 1},
+        buffer_duration = {type = "integer", minimum = 1, default = 60},
+        inactive_timeout = {type = "integer", minimum = 1, default = 5},
+        batch_max_size = {type = "integer", minimum = 1, default = 1000},
     },
-    required = { "uri", "method" }
+    required = {"uri"}
 }
 
 
@@ -85,13 +83,13 @@ local function send_http_data(conf, log_message)
     end
 
     local httpc_res, err = httpc:request({
-        method = conf.method,
+        method = "POST",
         path = url_decoded.path,
         query = url_decoded.query,
         body = log_message,
         headers = {
             ["Host"] = url_decoded.host,
-            ["Content-Type"] = conf.content_type,
+            ["Content-Type"] = "application/json",
             ["Authorization"] = conf.auth_header
         }
     })
