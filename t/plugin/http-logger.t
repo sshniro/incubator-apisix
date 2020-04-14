@@ -216,4 +216,4 @@ GET /opentracing
 opentracing
 --- error_log
 Batch Processor[http logger] successfully processed the entries
---- wait: 1
+--- wait: 2
