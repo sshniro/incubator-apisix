@@ -126,6 +126,7 @@ script() {
     ./bin/apisix stop
     sleep 1
 
+    curl -k -X PUT -H "Arbitrary:Header" -d aaa=bbb https://localhost:9999/hello-world-http
     make lint && make license-check || exit 1
     APISIX_ENABLE_LUACOV=1 prove -Itest-nginx/lib -r t
 }
