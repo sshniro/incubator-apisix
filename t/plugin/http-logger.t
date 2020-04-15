@@ -77,6 +77,35 @@ done
 
 
 
+=== TEST 3: wrong string
+--- config
+    location /t {
+        content_by_lua_block {
+            local plugin = require("apisix.plugins.http-logger")
+            local ok, err = plugin.check_schema({auth_header = "Basic 123",
+                                                 timeout = 3,
+                                                 name = "http-logger",
+                                                 max_retry_count = 2,
+                                                 retry_delay = 2,
+                                                 buffer_duration = 2,
+                                                 inactive_timeout = 2,
+                                                 batch_max_size = 500,
+                                                 })
+            if not ok then
+                ngx.say(err)
+            end
+
+            ngx.say("done")
+        }
+    }
+--- request
+GET /t
+--- response_body
+property "uri" is required
+done
+--- no_error_log
+[error]
+
 
 
 === TEST 4: add plugin
@@ -468,8 +497,8 @@ Batch Processor[http logger] successfully processed the entries
                  [[{
                         "plugins": {
                             "http-logger": {
-                                "uri": "https://127.0.0.1:9999/hello-world-http",
-                                "batch_max_size": 2,
+                                "uri": "http://127.0.0.1:9991/hello-world-http",
+                                "batch_max_size": 1,
                                 "max_retry_count": 1,
                                 "retry_delay": 2,
                                 "buffer_duration": 2,
@@ -489,8 +518,8 @@ Batch Processor[http logger] successfully processed the entries
                         "value": {
                             "plugins": {
                                 "http-logger": {
-                                    "uri": "https://127.0.0.1:9999/hello-world-http",
-                                    "batch_max_size": 2,
+                                    "uri": "http://127.0.0.1:9991/hello-world-http",
+                                    "batch_max_size": 1,
                                     "max_retry_count": 1,
                                     "retry_delay": 2,
                                     "buffer_duration": 2,
@@ -523,3 +552,14 @@ GET /t
 passed
 --- no_error_log
 [error]
+
+
+
+=== TEST 11: access
+--- request
+GET /hello1
+--- response_body
+hello1 world
+--- error_log
+Batch Processor[http logger] failed to process entries: failed to connect to host[127.0.0.1] port[9991] connection refused
+--- wait: 1.5
