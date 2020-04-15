@@ -143,7 +143,6 @@ GET /opentracing
 --- response_body
 opentracing
 --- error_log
-failed to keep the connection
 Batch Processor[http logger] successfully processed the entries
 --- wait: 0.5
 
@@ -216,4 +215,4 @@ GET /opentracing
 opentracing
 --- error_log
 Batch Processor[http logger] successfully processed the entries
---- wait: 2
+--- wait: 1

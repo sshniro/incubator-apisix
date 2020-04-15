@@ -96,7 +96,7 @@ local function send_http_data(conf, log_message)
         }
     })
 
-    if not httpc_res then
+    if err then
         return false, "error while sending data to [" .. host .. "] port["
             .. tostring(port) .. "] " .. err
     end
