@@ -168,7 +168,7 @@ Batch Processor[http logger] successfully processed the entries
                             },
                             "type": "roundrobin"
                         },
-                        "uri": "/opentracing"
+                        "uri": "/hello"
                 }]],
                 [[{
                     "node": {
@@ -185,7 +185,7 @@ Batch Processor[http logger] successfully processed the entries
                                 },
                                 "type": "roundrobin"
                             },
-                            "uri": "/opentracing"
+                            "uri": "/hello"
                         },
                         "key": "/apisix/routes/1"
                     },
@@ -210,9 +210,151 @@ passed
 
 === TEST 7: access
 --- request
-GET /opentracing
+GET /hello
 --- response_body
-opentracing
+hello world
 --- error_log
 Batch Processor[http logger] successfully processed the entries
---- wait: 1
+--- wait: 2
+
+
+
+=== TEST 8: wrong https
+--- config
+    location /t {
+        content_by_lua_block {
+            local t = require("lib.test_admin").test
+            local code, body = t('/apisix/admin/routes/1',
+                 ngx.HTTP_PUT,
+                 [[{
+                        "plugins": {
+                            "http-logger": {
+                                "uri": "https://127.0.0.1:8888/hello-world-http",
+                                "batch_max_size": 1
+                            }
+                        },
+                        "upstream": {
+                            "nodes": {
+                                "127.0.0.1:1982": 1
+                            },
+                            "type": "roundrobin"
+                        },
+                        "uri": "/hello1"
+                }]],
+                [[{
+                    "node": {
+                        "value": {
+                            "plugins": {
+                                "http-logger": {
+                                    "uri": "https://127.0.0.1:8888/hello-world-http",
+                                    "batch_max_size": 1
+                                }
+                            },
+                            "upstream": {
+                                "nodes": {
+                                    "127.0.0.1:1982": 1
+                                },
+                                "type": "roundrobin"
+                            },
+                            "uri": "/hello1"
+                        },
+                        "key": "/apisix/routes/1"
+                    },
+                    "action": "set"
+                }]]
+                )
+
+            if code >= 300 then
+                ngx.status = code
+            end
+            ngx.say(body)
+        }
+    }
+--- request
+GET /t
+--- response_body
+passed
+--- no_error_log
+[error]
+
+
+
+=== TEST 9: access
+--- request
+GET /hello1
+--- response_body
+hello1 world
+--- error_log
+failed to perform SSL with host[127.0.0.1] port[8888] handshake failed
+--- wait: 1.5
+
+
+
+=== TEST 10: correct https
+--- config
+    location /t {
+        content_by_lua_block {
+            local t = require("lib.test_admin").test
+            local code, body = t('/apisix/admin/routes/1',
+                 ngx.HTTP_PUT,
+                 [[{
+                        "plugins": {
+                            "http-logger": {
+                                "uri": "https://127.0.0.1:9999/hello-world-http",
+                                "batch_max_size": 1
+                            }
+                        },
+                        "upstream": {
+                            "nodes": {
+                                "127.0.0.1:1982": 1
+                            },
+                            "type": "roundrobin"
+                        },
+                        "uri": "/hello1"
+                }]],
+                [[{
+                    "node": {
+                        "value": {
+                            "plugins": {
+                                "http-logger": {
+                                    "uri": "https://127.0.0.1:9999/hello-world-http",
+                                    "batch_max_size": 1
+                                }
+                            },
+                            "upstream": {
+                                "nodes": {
+                                    "127.0.0.1:1982": 1
+                                },
+                                "type": "roundrobin"
+                            },
+                            "uri": "/hello1"
+                        },
+                        "key": "/apisix/routes/1"
+                    },
+                    "action": "set"
+                }]]
+                )
+
+            if code >= 300 then
+                ngx.status = code
+            end
+            ngx.say(body)
+        }
+    }
+--- request
+GET /t
+--- response_body
+passed
+--- no_error_log
+[error]
+
+
+
+=== TEST 11: access
+--- request
+GET /hello1
+--- response_body
+hello1 world
+--- error_log
+Batch Processor[http logger] successfully processed the entries
+--- wait: 1.5

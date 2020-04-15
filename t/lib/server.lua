@@ -25,7 +25,6 @@ function _M.hello()
 end
 
 function _M.hello1()
-    ngx.log(ngx.ERR, "error from niro")
     ngx.say("hello1 world")
 end
 
