@@ -29,26 +29,30 @@
 ## Name
 
 `kafka-logger` is a plugin which works as a Kafka client driver for the ngx_lua nginx module.
-
 This will provide the ability to send Log data requests as JSON objects to external Kafka clusters.
+This plugin provides the ability to push Log data as a batch to you're external Kafka topics. 
 
-This plugin provides the ability to push Log data as a batch to you're external Kafka topics. In case if you did not recieve the log data don't worry give it some time it will automatically send the logs after the timer function expires in our Batch Processor.
+The plugin uses [Batch-Processor](../batch-processor.md) to aggregate the logs and exports them as batches. Hence, the logs will be exported 
+when it reaches the `inactive_timeout` or `buffer_duration` or `batch_max_size`.  By default the logs will be exported
+in 60 seconds interval.
 
-For more info on Batch-Processor in Apache APISIX please refer.
-[Batch-Processor](../batch-processor.md)
+Optional: 
+
+For optimal usage set the `inactive_timeout` smaller than `buffer_duration`. 
+Set the `batch_max_size` to `1` if the logs do not need to be aggregated.
 
 ## Attributes
 
 |Name           |Requirement    |Description|
 |---------      |--------       |-----------|
-| broker_list   |required       | An array of Kafka brokers.|
-| kafka_topic   |required       | Target topic to push data.|
-| timeout       |optional       |Timeout for the upstream to send data.|
-| key           |required       |Key for the message.|
+|broker_list   |required       | An array of Kafka brokers.|
+|kafka_topic   |required       | Target topic to push data.|
+|timeout       |optional       |Timeout for the upstream to send data.|
+|key           |required       |Key for the message.|
 |name           |optional       |A unique identifier to identity the batch processor|
 |batch_max_size |optional       |Max size of each batch, default is 1000|
-|inactive_timeout|optional      |maximum age in seconds when the buffer will be flushed if inactive, default is 5s|
-|buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 5|
+|inactive_timeout|optional      |maximum age in seconds when the buffer will be flushed if inactive, default is 30s|
+|buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 60s|
 |max_retry_count|optional       |Maximum number of retries before removing from the processing pipe line; default is zero|
 |retry_delay    |optional       |Number of seconds the process execution should be delayed if the execution fails; default is 1|
 
@@ -119,9 +123,8 @@ Remove the corresponding json configuration in the plugin configuration to disab
 APISIX plugins are hot-reloaded, therefore no need to restart APISIX.
 
 ```shell
-$ curl http://127.0.0.1:2379/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d value='
+curl http://127.0.0.1:9080/apisix/admin/routes/5  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "methods": ["GET"],
     "uri": "/hello",
     "plugins": {},
     "upstream": {

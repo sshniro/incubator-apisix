@@ -31,10 +31,16 @@
 
 This will provide the ability to send Log data requests as JSON objects to Monitoring tools and other UDP servers.
 
-This plugin provides the ability to push Log data as a batch to you're external UDP servers. In case if you did not recieve the log data don't worry give it some time it will automatically send the logs after the timer function expires in our Batch Processor.
+This plugin provides the ability to push Log data as a batch to you're external UDP servers. 
 
-For more info on Batch-Processor in Apache APISIX please refer.
-[Batch-Processor](../batch-processor.md)
+The plugin uses [Batch-Processor](../batch-processor.md) to aggregate the logs and exports them as batches. Hence, the logs will be exported 
+when it reaches the `inactive_timeout` or `buffer_duration` or `batch_max_size`.  By default the logs will be exported
+in 60 seconds interval.
+
+Optional: 
+
+For optimal usage set the `inactive_timeout` smaller than `buffer_duration`. 
+Set the `batch_max_size` to `1` if the logs do not need to be aggregated.
 
 ## Attributes
 
@@ -45,8 +51,8 @@ For more info on Batch-Processor in Apache APISIX please refer.
 |timeout        |optional       |Timeout for the upstream to send data.|
 |name           |optional       |A unique identifier to identity the batch processor|
 |batch_max_size |optional       |Max size of each batch, default is 1000|
-|inactive_timeout|optional      |Maximum age in seconds when the buffer will be flushed if inactive, default is 5s|
-|buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 60|
+|inactive_timeout|optional      |Maximum age in seconds when the buffer will be flushed if inactive, default is 30s|
+|buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 60s|
 
 ## How To Enable
 
@@ -90,9 +96,8 @@ Remove the corresponding json configuration in the plugin configuration to disab
 APISIX plugins are hot-reloaded, therefore no need to restart APISIX.
 
 ```shell
-$ curl http://127.0.0.1:2379/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d value='
+curl http://127.0.0.1:9080/apisix/admin/routes/5  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "methods": ["GET"],
     "uri": "/hello",
     "plugins": {},
     "upstream": {

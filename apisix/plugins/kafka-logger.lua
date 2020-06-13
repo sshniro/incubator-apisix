@@ -42,7 +42,7 @@ local schema = {
         max_retry_count = {type = "integer", minimum = 0, default = 0},
         retry_delay = {type = "integer", minimum = 0, default = 1},
         buffer_duration = {type = "integer", minimum = 1, default = 60},
-        inactive_timeout = {type = "integer", minimum = 1, default = 5},
+        inactive_timeout = {type = "integer", minimum = 1, default = 30},
         batch_max_size = {type = "integer", minimum = 1, default = 1000},
         include_req_body = {type = "boolean", default = false}
     },

@@ -41,6 +41,7 @@ local schema = {
         pool_size = {type = "integer", minimum = 5, default = 5},
         tls = {type = "boolean", default = false},
         batch_max_size = {type = "integer", minimum = 1, default = 1000},
+        inactive_timeout = {type = "integer", minimum = 1, default = 30},
         buffer_duration = {type = "integer", minimum = 1, default = 60},
         include_req_body = {type = "boolean", default = false}
     },
@@ -170,7 +171,7 @@ function _M.log(conf)
         batch_max_size = conf.batch_max_size,
         max_retry_count = conf.max_retry_times,
         buffer_duration = conf.buffer_duration,
-        inactive_timeout = conf.timeout,
+        inactive_timeout = conf.inactive_timeout,
     }
 
     local err
