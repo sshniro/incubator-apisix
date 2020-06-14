@@ -105,7 +105,7 @@ A/B testing, canary release, blue-green deployment, limit rate, defense against 
     - High performance: The single-core QPS reaches 18k with an average delay of less than 0.2 milliseconds.
     - [Fault Injection](doc/plugins/fault-injection.md)
     - [REST Admin API](doc/admin-api.md): Using the REST Admin API to control Apache APISIX, which only allows 127.0.0.1 access by default, you can modify the `allow_admin` field in `conf/config.yaml` to specify a list of IPs that are allowed to call the Admin API. Also note that the Admin API uses key auth to verify the identity of the caller. **The `admin_key` field in `conf/config.yaml` needs to be modified before deployment to ensure security**.
-    - External Loggers: Export access logs to external log management tools. ([HTTP Logger](doc/plugins/http-logger.md), 
+    - External Loggers: Export access logs to external log management tools. ([HTTP Logger](doc/plugins/http-logger.md),
     [TCP Logger](doc/plugins/tcp-logger.md), [Kafka Logger](doc/plugins/kafka-logger.md), [Syslog](doc/plugins/syslog.md),
     [UDP Logger](doc/plugins/udp-logger.md))
 

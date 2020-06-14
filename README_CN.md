@@ -105,7 +105,7 @@ A/B 测试、金丝雀发布(灰度发布)、蓝绿部署、限流限速、抵�
     - 高性能：在单核上 QPS 可以达到 18k，同时延迟只有 0.2 毫秒。
     - [故障注入](doc/plugins/fault-injection-cn.md)
     - [REST Admin API](doc/admin-api-cn.md): 使用 REST Admin API 来控制 Apache APISIX，默认只允许 127.0.0.1 访问，你可以修改 `conf/config.yaml` 中的 `allow_admin` 字段，指定允许调用 Admin API 的 IP 列表。同时需要注意的是，Admin API 使用 key auth 来校验调用者身份，**在部署前需要修改 `conf/config.yaml` 中的 `admin_key` 字段，来保证安全。**
-    - 外部日志记录器：将访问日志导出到外部日志管理工具。([HTTP Logger](doc/plugins/http-logger-cn.md), [TCP Logger](doc/plugins/tcp-logger-cn.md), 
+    - 外部日志记录器：将访问日志导出到外部日志管理工具。([HTTP Logger](doc/plugins/http-logger-cn.md), [TCP Logger](doc/plugins/tcp-logger-cn.md),
     [Kafka Logger](doc/plugins/kafka-logger-cn.md), [Syslog](doc/plugins/syslog-cn.md), [UDP Logger](doc/plugins/udp-logger-cn.md))
 
 - **高度可扩展**

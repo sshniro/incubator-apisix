@@ -32,14 +32,14 @@
 This will provide the ability to send Log data requests as JSON objects to Monitoring tools and other TCP servers.
 This plugin provides the ability to push Log data as a batch to you're external TCP servers. 
 
-The plugin uses [Batch-Processor](../batch-processor.md) to aggregate the logs and exports them as batches. Hence, the logs will be exported 
+The plugin uses [Batch-Processor](../batch-processor.md) to aggregate the logs and exports them as batches. Hence, the logs will be exported
 when it reaches the `inactive_timeout` or `buffer_duration` or `batch_max_size`.  By default the logs will be exported
 in 60 seconds interval.
 
-Optional: 
+Optional:
 
-For optimal usage set the `inactive_timeout` smaller than `buffer_duration`. 
-Set the `batch_max_size` to `1` if the logs do not need to be aggregated.
+For optimal usage set the `inactive_timeout` smaller than `buffer_duration`.
+Set the `batch_max_size` to `1` if the logs do not need to be aggregated (Will be exported immediately without buffering).
 
 ## Attributes
 
@@ -112,3 +112,42 @@ curl http://127.0.0.1:9080/apisix/admin/routes/5  -H 'X-API-KEY: edd1c9f034335f1
     }
 }'
 ```
+
+# Example Format
+
+The following shows an exported log format for a POST request.
+
+```json
+{
+  "upstream": "35.153.61.143:443",
+  "start_time": 1592089631177,
+  "client_ip": "127.0.0.1",
+  "service_id": "",
+  "route_id": "5",
+  "request": {
+    "querystring": {},
+    "size": 220,
+    "uri": "\\/get",
+    "url": "http:\\/\\/127.0.0.2:9080\\/get",
+    "headers": {
+      "content-type": "application\\/x-www-form-urlencoded",
+      "apikey": "auth-one"
+    },
+    "method": "POST",
+    "body": "data=testdata"
+  },
+  "response": {
+    "headers": {
+      "access-control-allow-origin": "*"
+    },
+    "status": 405,
+    "size": 461
+  },
+  "latency": 511.99984550476,
+  "consumer": {
+    "id": "jack",
+    "username": "jack"
+  }
+}
+```
+

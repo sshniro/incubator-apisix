@@ -51,13 +51,22 @@ local function get_full_log(ngx, conf)
         upstream = var.upstream_addr,
         service_id = service_id,
         route_id = route_id,
-        consumer = ctx.consumer,
         client_ip = core.request.get_remote_client_ip(ngx.ctx.api_ctx),
         start_time = ngx.req.start_time() * 1000,
         latency = (ngx.now() - ngx.req.start_time()) * 1000
     }
 
-    if conf.include_req_body then
+    if ctx.consumer then
+        if ctx.consumer.id then
+            log.consumer.consumer.id = ctx.consumer.id
+        end
+
+        if ctx.consumer.username then
+            log.consumer.consumer.username = ctx.consumer.username
+        end
+    end
+
+    if ngx.req.get_method() ~= "GET" and conf.include_req_body then
         local body = ngx.req.get_body_data()
         if body then
             log.request.body = body
