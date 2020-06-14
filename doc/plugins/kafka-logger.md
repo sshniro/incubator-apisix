@@ -55,6 +55,7 @@ Set the `batch_max_size` to `1` if the logs do not need to be aggregated (Will b
 |buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 60s|
 |max_retry_count|optional       |Maximum number of retries before removing from the processing pipe line; default is zero|
 |retry_delay    |optional       |Number of seconds the process execution should be delayed if the execution fails; default is 1|
+|include_req_body    |optional  |Includes the request body while exporting the logs|
 
 ## Info
 
@@ -136,7 +137,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/5  -H 'X-API-KEY: edd1c9f034335f1
 }'
 ```
 
-# Example Format
+## Example Format
 
 The following shows an exported log format for a POST request.
 

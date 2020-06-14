@@ -99,3 +99,39 @@ $ curl http://127.0.0.1:2379/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f
     }
 }'
 ```
+
+## 范例格式
+
+```json
+{
+  "upstream": "35.153.61.143:443",
+  "start_time": 1592089631177,
+  "client_ip": "127.0.0.1",
+  "service_id": "",
+  "route_id": "5",
+  "request": {
+    "querystring": {},
+    "size": 220,
+    "uri": "\\/get",
+    "url": "http:\\/\\/127.0.0.2:9080\\/get",
+    "headers": {
+      "content-type": "application\\/x-www-form-urlencoded",
+      "apikey": "auth-one"
+    },
+    "method": "POST",
+    "body": "data=testdata"
+  },
+  "response": {
+    "headers": {
+      "access-control-allow-origin": "*"
+    },
+    "status": 405,
+    "size": 461
+  },
+  "latency": 511.99984550476,
+  "consumer": {
+    "id": "jack",
+    "username": "jack"
+  }
+}
+```

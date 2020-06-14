@@ -57,6 +57,7 @@ Set the `batch_max_size` to `1` if the logs do not need to be aggregated (Will b
 |batch_max_size |optional       |Max size of each batch, default is 1000|
 |inactive_timeout|optional      |maximum age in seconds when the buffer will be flushed if inactive, default is 30s|
 |buffer_duration|optional       |Maximum age in seconds of the oldest entry in a batch before the batch must be processed, default is 60|
+|include_req_body    |optional  |Includes the request body while exporting the logs|
 
 ## How To Enable
 
@@ -112,7 +113,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/5  -H 'X-API-KEY: edd1c9f034335f1
 }'
 ```
 
-# Example Format
+## Example Format
 
 The following shows an exported log format for a POST request.
 
