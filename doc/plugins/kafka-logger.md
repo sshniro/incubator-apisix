@@ -30,7 +30,7 @@
 
 `kafka-logger` is a plugin which works as a Kafka client driver for the ngx_lua nginx module.
 This will provide the ability to send Log data requests as JSON objects to external Kafka clusters.
-This plugin provides the ability to push Log data as a batch to you're external Kafka topics. 
+This plugin provides the ability to push Log data as a batch to you're external Kafka topics.
 
 The plugin uses [Batch-Processor](../batch-processor.md) to aggregate the logs and exports them as batches. Hence, the logs will be exported
 when it reaches the `inactive_timeout` or `buffer_duration` or `batch_max_size`.  By default the logs will be exported
