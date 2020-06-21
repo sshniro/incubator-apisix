@@ -28,11 +28,11 @@ The document is divided into 7 main sections
 
 - [Quick Start]() section provides a step by step guide on setting up APISIX with a secured route to access an API.
 - [General]()
-  - [Architecture] section explains the overall architecture of APISIX
+  - [Architecture](./getting-started.md) section explains the overall architecture of APISIX
   - [Benchmark] section contains the benchmarking results of APISIX
-  - [Installations] section contains installtion details for mutiple platforms
-  - [Plugin Development] section explains how to develop your custome plugins and how perform hot reloading
-  - [Proxies] section contains how to setup GRPC and straming proxies with APISIX
+  - [Installations] section contains installation details for multiple platforms
+  - [Plugin Development] section explains how to develop your custom plugins and how perform hot reloading
+  - [Proxies] section contains how to setup GRPC and streaming proxies with APISIX
 - [FAQs]() section contains answers to some of the frequently asked question regarding APISIX.
 - [Plugins]
   - [Authentication]() plugins to authenticate API calls to API Gateway.
