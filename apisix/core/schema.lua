@@ -47,5 +47,5 @@ function _M.check(schema, json)
     return validator(json)
 end
 
-
+_M.create_validator = create_validator
 return _M

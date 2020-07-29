@@ -42,7 +42,17 @@ local _M = {
 
 
 function _M.check_schema(conf)
-    return core.schema.check(schema, conf)
+    local ok, error = core.schema.check(schema, conf)
+    if not ok then
+        return false, err
+    end
+
+    local validator, err = core.schema.create_validator(conf)
+    if not validator then
+        return false, err
+    end
+
+    return validator(json)
 end
 
 

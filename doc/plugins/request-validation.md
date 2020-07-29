@@ -107,24 +107,26 @@ curl http://127.0.0.1:9080/apisix/admin/routes/5 -H 'X-API-KEY: edd1c9f034335f13
 
 **Using ENUMS:**
 
-```shell
-"body_schema": {
-    "type": "object",
-    "required": ["required_payload"],
-    "properties": {
-            "emum_payload": {
-            "type": "string",
-            enum: ["enum_string_1", "enum_string_2"]
-            default = "enum_string_1"
-        }
-    }
+```json
+{
+  "body_schema": {
+      "type": "object",
+      "required": ["required_payload"],
+      "properties": {
+              "emum_payload": {
+              "type": "string",
+              "enum": ["enum_string_1", "enum_string_2"],
+              "default": "enum_string_1"
+          }
+      }
+  }
 }
 ```
 
 
 **JSON with multiple levels:**
 
-```shell
+```json
 "body_schema": {
     "type": "object",
     "required": ["required_payload"],
